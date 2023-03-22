@@ -1,159 +1,88 @@
-import React, {useEffect, useState, useRef, Button} from 'react';
+import * as React from 'react';
 import {
-  FlatList,
-  SafeAreaView,
   StyleSheet,
-  Text,
   TouchableOpacity,
-  TextInput,
+  Text,
   View,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  TextInput,
 } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 const App = () => {
-  const [todos, fixTodos] = React.useState([]);
-  let newText = '';
-
-  const renderlist = ({item}) => {
-    const backgroundColor = item.Done ? 'white' : 'white';
-    const color = item.Done ? '#DADADA' : 'black';
-
-    const DoneItem = id => {
-      console.log(id);
-      const updatedTodos = todos.map(todo => {
-        if (todo.id === id) {
-          todo.Done = !todo.Done;
-        }
-        return todo;
-      });
-      console.log(updatedTodos);
-      fixTodos(updatedTodos);
-    };
-
-    return (
-      <View style={styles.todo}>
-        <Item
-          key={item.id}
-          item={item}
-          onPress={() => DoneItem(item.id)}
-          backgroundColor={backgroundColor}
-          textColor={color}
-          style={styles.listItem}
-        />
-        <TouchableOpacity
-          onPress={() => handleDeleteTodo(item.id)}
-          style={styles.deletedButton}>
-          <View>
-            <Text style={styles.deletedText}>delete</Text>
-          </View>
-        </TouchableOpacity>
-      </View>
-    );
-  };
-  const Item = ({item, onPress, backgroundColor, textColor}) => (
-    <TouchableOpacity
-      onPress={onPress}
-      style={[styles.item, {backgroundColor}]}>
-      <Text style={[styles.title, {color: textColor}]}>{item.text}</Text>
-    </TouchableOpacity>
-  );
-  const addTodo = () => {
-    fixTodos([...todos, {id: Date.now(), text: newText, Done: false}]);
-  };
-
-  const handleDeleteTodo = id => {
-    fixTodos(todos.filter(todo => todo.id !== id));
-    console.log();
-  };
-
-  const Header = () => {
-    return (
-      <>
-        <Text style={styles.heading}>To do App</Text>
-        <View style={styles.TaskWrapper}>
-          <TextInput
-            style={styles.input}
-            placeholder={'Write a List...'}
-            onChangeText={text => (newText = text)}
-          />
-          <TouchableOpacity onPress={addTodo}>
-            <View style={styles.addWrapper}>
-              <Text style={styles.mark}>+</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </>
-    );
-  };
-
   return (
-    <SafeAreaView style={styles.container}>
-      <FlatList
-        data={todos}
-        renderItem={renderlist}
-        keyExtractor={item => item.id}
-        ListHeaderComponent={Header}
-      />
+    <SafeAreaView>
+      <ScrollView>
+        <View style={{flex: 1}}>
+          <Text style={styles.header}>Trending Recipes</Text>
+          <View style={styles.recipemain}>
+            <Image
+              source={{uri: 'https://picsum.photos/200/300'}}
+              style={{width: 473, height: 250, borderRadius: 10, padding: 0}}
+            />
+            <Text style={styles.Title}>Chiken Tikka</Text>
+            <Text style={styles.Sub}>Indian British chiken recipe</Text>
+            <Text style={styles.Desc}>Ingriediends</Text>
+            <Text style={styles.Prep}>Prep Time: 45mins</Text>
+          </View>
+          <View style={styles.recipemain}>
+            <Image
+              source={{uri: 'https://picsum.photos/200/300'}}
+              style={{width: 473, height: 250, borderRadius: 10, padding: 0}}
+            />
+            <Text style={styles.Title}>Recipe Name would go here</Text>
+            <Text style={styles.Sub}>Indian British chiken recipe</Text>
+            <Text style={styles.Desc}>Ingriediends</Text>
+            <Text style={styles.Prep}>Prep Time: 45mins</Text>
+          </View>
+          <View style={styles.recipemain}>
+            <Image
+              source={{uri: 'https://picsum.photos/200/300'}}
+              style={{width: 473, height: 250, borderRadius: 10, padding: 0}}
+            />
+            <Text style={styles.Title}>Chiken Tikka</Text>
+            <Text style={styles.Sub}>Indian British chiken recipe</Text>
+            <Text style={styles.Desc}>Ingriediends</Text>
+            <Text style={styles.Prep}>Prep Time: 45mins</Text>
+          </View>
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    // marginTop: StatusBar.currentHeight || 0,
-  },
-  item: {
-    padding: 22,
-    flex: 1,
-    // marginVertical: 8,
-  },
-  title: {
-    fontSize: 30,
-  },
-  input: {
-    height: 42,
-    flex: 1,
-    margin: 14,
-    borderWidth: 1,
-    padding: 12,
-  },
-  addWrapper: {
-    width: 38,
-    height: 38,
-    backgroundColor: '#FFF',
-    borderRadius: 65,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderWidth: 1,
-  },
-  TaskWrapper: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    padding: 11,
-  },
-  mark: {
-    fontSize: 18,
-  },
-  todo: {
-    flexDirection: 'row',
-    marginHorizontal: 22,
-  },
-  deletedButton: {
+  recipemain: {
     backgroundColor: 'blue',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 22,
-    color: 'white',
+    padding: 8,
+    marginTop: 8,
+    marginBottom: 8,
   },
-  deletedText: {
-    color: 'white',
-  },
-  heading: {
-    fontSize: 44,
-    color: 'brown',
-    textAlign: 'center',
+  header: {
+    color: 'blue',
+    fontSize: 25,
     fontWeight: 'bold',
+    textAlign: 'center',
+    margin: 10,
+  },
+  Title: {
+    fontSize: 34,
+    fontWeight: 'bold',
+  },
+  Sub: {
+    fontSize: 28,
+    fontWeight: 'bold',
+  },
+  Desc: {
+    fontSize: 24,
+  },
+  Prep: {
+    fontWeight: 'bold',
+    fontSize: 23,
   },
 });
 
